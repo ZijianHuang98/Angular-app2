@@ -9,17 +9,21 @@ import { RouterModule } from '@angular/router';
 import { InfoComponent } from './info/info.component';
 import { AvatarComponent } from './avatar/avatar.component';
 import { SecurityComponent } from './security/security.component';
-const routes =[
-  {path: 'index',component:IndexComponent},
-  {path: '',component:IndexComponent},
-  {path:'user-center',component:UserCenterComponent,
-children:[
-  {path:'info',component:InfoComponent},
-  {path:'avatar',component:AvatarComponent},
-  {path:'security',component:SecurityComponent}
-]
-},
-  {path:'**',component:NotFoundComponent}
+import { LoginGuardService } from './login-guard.service';
+const routes = [
+  { path: 'index', component: IndexComponent },
+  { path: '', component: IndexComponent },
+  {
+    path: 'user-center',
+    component: UserCenterComponent,
+    canActivate: [LoginGuardService],
+    children: [
+      { path: 'info', component: InfoComponent },
+      { path: 'avatar', component: AvatarComponent },
+      { path: 'security', component: SecurityComponent }
+    ]
+  },
+  { path: '**', component: NotFoundComponent }
 ]
 
 @NgModule({
@@ -34,8 +38,8 @@ children:[
   ],
   imports: [
     BrowserModule,
-    RouterModule.forRoot( routes )
-    
+    RouterModule.forRoot(routes)
+
   ],
   providers: [],
   bootstrap: [AppComponent]
